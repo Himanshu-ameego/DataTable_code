@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table id="myTable" class="display">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+      <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+      <!-- Include Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+<!-- Include jQuery and DataTables -->
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCCKYuNkemc-ulkOVrhONxRw_hX4yyaHj0",
+  authDomain: "itadori-4c24d.firebaseapp.com",
+  databaseURL: "https://itadori-4c24d-default-rtdb.firebaseio.com",
+  projectId: "itadori-4c24d",
+  storageBucket: "itadori-4c24d.firebasestorage.app",
+  messagingSenderId: "460308433185",
+  appId: "1:460308433185:web:a2fc0752c1de9825c29660"
+};
+
+
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+
+$(document).ready(function () {
+  const table = $('#myTable').DataTable();
+
+  // Fetch data from Firebase
+  db.ref('students').on('value', (snapshot) => {
+    table.clear(); // Clear previous data
+    snapshot.forEach((childSnapshot) => {
+      const data = childSnapshot.val();
+      const id = childSnapshot.key;
+
+      table.row.add([
+        id,
+        `<span class="editable" data-id="${id}" data-field="name">${data.name}</span>`,
+        `<span class="editable" data-id="${id}" data-field="age">${data.age}</span>`,
+        `<button class="delete" data-id="${id}">Delete</button>`,
+      ]).draw(false);
+    });
+  });
+
+  // Inline Editing
+  $('#myTable').on('click', '.  ', function () {
+    const span = $(this);
+    const id = span.data('id');
+    const field = span.data('field');
+    const currentValue = span.text();
+
+    const input = $(`<input type="text" value="${currentValue}" />`);
+    span.replaceWith(input);
+
+    input.focus();
+    input.on('blur', function () {
+      const newValue = input.val();
+      db.ref(`users/${id}/${field}`).set(newValue);
+      input.replaceWith(`<span class="editable" data-id="${id}" data-field="${field}">${newValue}</span>`);
+    });
+  });
+
+  // Delete Functionality
+  $('#myTable').on('click', '.delete', function () {
+    const id = $(this).data('id');
+    db.ref(`users/${id}`).remove();
+  });
+});
+
+</script>
+</body>
+</html>

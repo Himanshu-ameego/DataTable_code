@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Example</title>
+  <style>
+   
+    .navbar {
+      display: flex;
+      background-color: #333;
+      padding: 10px;
+    }
+   
+  
+    .content {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ddd;
+      margin-top: 10px;
+    }
+    .content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="nav-item" onclick="showContent('content1')">Option 1</div>
+    <div class="nav-item" onclick="showContent('content2')">Option 2</div>
+    <div class="nav-item" onclick="showContent('content3')">Option 3</div>
+    <div class="nav-item" onclick="showContent('content4')">Option 4</div>
+  </div>
+
+  <div id="content1" class="content">This is the content for Option 1.</div>
+  <div id="content2" class="content">This is the content for Option 2.</div>
+  <div id="content3" class="content">This is the content for Option 3.</div>
+  <div id="content4" class="content">This is the content for Option 4.</div>
+
+  <script>
+    function showContent(contentId) {
+      // Hide all content sections
+      const allContents = document.querySelectorAll('.content');
+      allContents.forEach(content => content.classList.remove('active'));
+
+      // Show the clicked content section
+      const selectedContent = document.getElementById(contentId);
+      selectedContent.classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "classes": {
+    "class1": {
+      "sections": {
+        "sectionA": {
+          "students": {
+            "student1": {
+              "firstName": "John",
+              "lastName": "Doe",
+              "age": 16
+            },
+            "student2": {
+              "firstName": "Jane",
+              "lastName": "Smith",
+              "age": 15
+            }
+          }
+        },
+        "sectionB": {
+          "students": {
+            "student3": {
+              "firstName": "Mark",
+              "lastName": "Brown",
+              "age": 17
+            }
+          }
+        }
+      }
+    },
+    "class2": {
+      "sections": {
+        "sectionA": {
+          "students": {
+            "student4": {
+              "firstName": "Emily",
+              "lastName": "White",
+              "age": 18
+            }
+          }
+        }
+      }
+    }
+  }
+}

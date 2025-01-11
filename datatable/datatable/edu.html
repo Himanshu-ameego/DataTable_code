@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="./css/edu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f4f4f4;
+            margin-bottom: 5px;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Slider Module</h2>
+        <ul>
+            <li id="data1" onclick="showSection('view')">View</li>
+            <li id="data2" onclick="showSection('add')">Add</li>
+            <li id="data3" onclick="showSection('list')">List</li>
+            <li id="data4" onclick="showSection('operation')">Operation</li>
+        </ul>
+    </div>
+    <div class="header">
+        <h1>Student Management</h1>
+        <ul class="line">
+            <li onclick="showSection('view')">View</li>
+            <li onclick="showSection('add')">Add</li>
+            <li onclick="showSection('list')">List</li>
+            <li onclick="showSection('operation')">Operation</li>
+        </ul>
+    </div>
+    <!--------------------------------------------------------------------- Main Content -->
+    <main>
+        <!-- View Section -->
+        <div id="view" class="section">
+            <h2>View</h2>
+            <table id="studentTableView" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentBodyView"></tbody>
+            </table>
+        </div>
+
+        <!---------------------------------------------------------------- Add Section -->
+        <div id="add" class="section">
+            <h2>Add Students</h2>
+            <label for="classDropdown">Class:</label>
+            <select id="classDropdown">
+                <option value="">Select Class</option>
+            </select>
+            <label for="sectionDropdown">Section:</label>
+            <select id="sectionDropdown">
+                <option value="">Select Section</option>
+            </select>
+            <table id="studentTableAdd" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody id="studentBody"></tbody>
+
+            </table>
+        </div>
+        <!---------------------------------------------------------------- Add Section  ends---------------------------------------->
+
+        <!-- List Section -->
+        <div id="list" class="section">
+            <h2>List</h2>
+            <p>I am list</p>
+        </div>
+
+        <!-- Operation Section -->
+        <div id="operation" class="section">
+            <h2>Operation</h2>
+            <p>I am operation</p>
+        </div>
+    </main>
+
+
+
+
+
+
+
+
+  <!--------------------------------------------script------------------------------------------------------------ -->
+    <script src="./js/stepWorking.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/edu.js"></script>
+</body>
+
+</html>

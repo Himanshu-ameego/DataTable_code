@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Info</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .edit-icon {
+      cursor: pointer;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Information</h1>
+  <table id="studentTable" class="display" style="width:100%">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="studentBody">
+
+      
+    </tbody>
+  </table>
+
+ 
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+
+  <script>
+ 
+ const firebaseConfig = {
+  apiKey: "AIzaSyCCKYuNkemc-ulkOVrhONxRw_hX4yyaHj0",
+  authDomain: "itadori-4c24d.firebaseapp.com",
+  databaseURL: "https://itadori-4c24d-default-rtdb.firebaseio.com",
+  projectId: "itadori-4c24d",
+  storageBucket: "itadori-4c24d.firebasestorage.app",
+  messagingSenderId: "460308433185",
+  appId: "1:460308433185:web:a2fc0752c1de9825c29660"
+};
+   
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+
+    const studentRef = db.ref("students");
+
+    function loadStudents() {
+      studentRef.on("value", (snapshot) => {
+        const data = snapshot.val();
+        const studentBody = $("#studentBody");
+        studentBody.empty();
+        for (const id in data) {
+          const student = data[id];
+          studentBody.append(`
+            <tr>
+              <td contenteditable="true" data-id="${id}" data-field="firstName">${student.firstName}</td>
+              <td contenteditable="true" data-id="${id}" data-field="lastName">${student.lastName}</td>
+              <td contenteditable="true" data-id="${id}" data-field="age">${student.age}</td>
+              <td><span class="edit-icon" onclick="saveStudent('${id}')">Save</span></td>
+            </tr>
+          `);
+        }
+        $("#studentTable").DataTable();
+      });
+    }
+
+    function saveStudent(id) {
+      const row = $(`[data-id="${id}"]`);
+      const updatedData = {
+        firstName: row.filter("[data-field='firstName']").text(),
+        lastName: row.filter("[data-field='lastName']").text(),
+        age: row.filter("[data-field='age']").text()
+      };
+
+      studentRef.child(id).update(updatedData)
+        .then(() =>
+         alert("Student updated successfully!"))
+        .catch((error) => alert("Error updating student: " + error.message));
+    }
+
+    $(document).ready(() => {
+      loadStudents();
+    });
+  </script>
+</body>
+</html>
